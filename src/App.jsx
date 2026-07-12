@@ -1,12 +1,14 @@
 import { useState, useCallback } from 'react';
 import TodayScreen from './components/TodayScreen';
 import PlanScreen from './components/PlanScreen';
+import HistoryScreen from './components/HistoryScreen';
 import { useTheme } from './ThemeContext';
 import { exportAllData, importAllData, clearAllData } from './storage';
 
 const TABS = [
-  { key: 'today', label: 'Today', icon: '🏠' },
-  { key: 'plan',  label: 'Plan',  icon: '📋' },
+  { key: 'today',   label: 'Today',   icon: '🏠' },
+  { key: 'history', label: 'History', icon: '📅' },
+  { key: 'plan',    label: 'Plan',    icon: '📋' },
 ];
 
 export default function App() {
@@ -107,6 +109,7 @@ export default function App() {
             onOpenSettings={() => setShowSettings(true)}
           />
         )}
+        {tab === 'history' && <HistoryScreen key="history" />}
         {tab === 'plan' && <PlanScreen key="plan" />}
       </div>
 

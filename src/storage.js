@@ -72,6 +72,15 @@ export function importAllData(data) {
   });
 }
 
+export function getLoggedDates() {
+  const dates = [];
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (key.startsWith('logs:')) dates.push(key.slice(5));
+  }
+  return dates;
+}
+
 export function clearAllData() {
   const keys = [];
   for (let i = 0; i < localStorage.length; i++) {
