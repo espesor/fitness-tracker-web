@@ -27,6 +27,10 @@ export function saveLogsForDate(dateStr, log) {
   localStorage.setItem(`logs:${dateStr}`, JSON.stringify(log));
 }
 
+export function deleteLogsForDate(dateStr) {
+  localStorage.removeItem(`logs:${dateStr}`);
+}
+
 // ─── Exercise Name Hints (per-category autocomplete history) ──────────
 
 export function getHints(category) {

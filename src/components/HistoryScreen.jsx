@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { CATEGORIES, CAT_KEYS, TARGETS } from '../constants';
-import { getLogsForDate, getLoggedDates } from '../storage';
+import { getLogsForDate, getLoggedDates, deleteLogsForDate } from '../storage';
 
 function toDateStr(year, month, day) {
   return `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
@@ -15,7 +15,7 @@ function getCategoryDots(log) {
   return dots;
 }
 
-function DayDetail({ dateStr, onClose }) {
+function DayDetail({ dateStr, onClose, onDeleted }) {
   const log = getLogsForDate(dateStr);
   const grouped = {};
   CAT_KEYS.forEach((cat) => { grouped[cat] = log.filter((e) => e.category === cat); });
@@ -26,9 +26,17 @@ function DayDetail({ dateStr, onClose }) {
     weekday: 'long', month: 'long', day: 'numeric', year: 'numeric',
   });
 
+  function handleDelete() {
+    if (confirm(`Delete the log for ${label}? This cannot be undone.`)) {
+      deleteLogsForDate(dateStr);
+      onDeleted(dateStr);
+      onClose();
+    }
+  }
+
   return (
     <div className="absolute inset-0 z-40 flex flex-col bg-[#EDF0F5] dark:bg-[#161D2C]">
-      <div className="bg-[#3D5068] dark:bg-[#141D2E] px-5 py-4 flex items-center justify-between flex-shrink-0">
+      <div className="bg-[#3D5068] dark:bg-[#141D2E] px-5 pt-[max(1rem,env(safe-area-inset-top))] pb-4 flex items-center justify-between flex-shrink-0">
         <div>
           <p className="text-white/50 text-xs uppercase tracking-widest">History</p>
           <h2 className="text-white text-lg font-semibold">{label}</h2>
@@ -99,6 +107,16 @@ function DayDetail({ dateStr, onClose }) {
             </div>
           );
         })}
+
+        {hasAny && (
+          <button
+            onClick={handleDelete}
+            className="w-full rounded-xl p-4 border border-red-200 dark:border-red-900
+              bg-white dark:bg-[#1E2840] text-red-600 dark:text-red-400 font-semibold text-base"
+          >
+            Delete this day's log
+          </button>
+        )}
       </div>
     </div>
   );
@@ -109,8 +127,9 @@ export default function HistoryScreen() {
   const [year, setYear] = useState(today.getFullYear());
   const [month, setMonth] = useState(today.getMonth()); // 0-indexed
   const [selectedDate, setSelectedDate] = useState(null);
+  const [refreshKey, setRefreshKey] = useState(0);
 
-  const loggedDates = useMemo(() => new Set(getLoggedDates()), []);
+  const loggedDates = useMemo(() => new Set(getLoggedDates()), [refreshKey]);
 
   // Compute calendar grid
   const firstDay = new Date(year, month, 1).getDay(); // 0=Sun
@@ -137,11 +156,15 @@ export default function HistoryScreen() {
   return (
     <div className="flex-1 flex flex-col overflow-hidden relative">
       {selectedDate && (
-        <DayDetail dateStr={selectedDate} onClose={() => setSelectedDate(null)} />
+        <DayDetail
+          dateStr={selectedDate}
+          onClose={() => setSelectedDate(null)}
+          onDeleted={() => setRefreshKey((k) => k + 1)}
+        />
       )}
 
       {/* Header */}
-      <div className="bg-[#3D5068] dark:bg-[#141D2E] px-5 pt-3 pb-5 flex-shrink-0">
+      <div className="bg-[#3D5068] dark:bg-[#141D2E] px-5 pt-[max(0.75rem,env(safe-area-inset-top))] pb-5 flex-shrink-0">
         <p className="text-xs text-white/50 uppercase tracking-widest mb-1">Exercise Log</p>
         <h1 className="text-4xl font-bold text-white">History</h1>
       </div>

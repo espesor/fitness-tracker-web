@@ -80,7 +80,7 @@ export default function PlanScreen() {
   return (
     <div className="flex-1 flex flex-col overflow-hidden">
       {/* ── Header ───────────────────────────────── */}
-      <div className="bg-[#3D5068] dark:bg-[#141D2E] px-5 pt-3 pb-5 flex-shrink-0">
+      <div className="bg-[#3D5068] dark:bg-[#141D2E] px-5 pt-[max(0.75rem,env(safe-area-inset-top))] pb-5 flex-shrink-0">
         <h1 className="text-4xl font-bold text-white mb-1">Plan</h1>
         <p className="text-sm text-white/50">Your regular exercises by category</p>
       </div>

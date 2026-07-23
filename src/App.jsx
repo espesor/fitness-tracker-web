@@ -76,7 +76,7 @@ export default function App() {
       {/* ── Settings overlay ───────────────────────────────── */}
       {showSettings && (
         <div className="absolute inset-0 z-50 flex flex-col bg-[#EDF0F5] dark:bg-[#161D2C]">
-          <div className="bg-[#3D5068] dark:bg-[#141D2E] px-5 py-4 flex items-center justify-between flex-shrink-0">
+          <div className="bg-[#3D5068] dark:bg-[#141D2E] px-5 pt-[max(1rem,env(safe-area-inset-top))] pb-4 flex items-center justify-between flex-shrink-0">
             <h2 className="text-white text-xl font-semibold">Settings</h2>
             <button onClick={() => setShowSettings(false)} className="text-gray-300 text-3xl leading-none">&times;</button>
           </div>

@@ -72,7 +72,7 @@ export default function TodayScreen({ onOpenSettings }) {
   return (
     <div className="flex-1 flex flex-col overflow-hidden">
       {/* ── Header with rings ─────────────────────────── */}
-      <div className="bg-[#3D5068] dark:bg-[#141D2E] px-5 pt-3 pb-6 flex-shrink-0">
+      <div className="bg-[#3D5068] dark:bg-[#141D2E] px-5 pt-[max(0.75rem,env(safe-area-inset-top))] pb-6 flex-shrink-0">
         <div className="flex items-center justify-between mb-1">
           <p className="text-xs text-white/50 uppercase tracking-widest">{formatTodayFull()}</p>
           <button onClick={onOpenSettings} className="text-white/50 hover:text-white/80 text-xl transition-colors" title="Settings">
