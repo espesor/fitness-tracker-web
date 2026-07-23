@@ -18,6 +18,14 @@ export const TARGETS = {
 
 export const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
+// Seeded into the plan the first time the app runs (before any plan exists)
+export const DEFAULT_PLAN = {
+  cardio:   ['Swimming', 'Cycling', 'Walking'],
+  strength: ['RDL', 'Single Leg RDL', 'Banded Side Walk', 'Glute Bridges', 'Plank', 'Side Plank', 'Push-ups'],
+  stretch:  ['Neck', 'Shoulders', 'Arms (up, side, back)', 'Hamstring', 'Downward Dog', 'Cat-Cow', 'Child Pose', 'Figure 4'],
+  balance:  ['Warrior III', 'Single Leg Side Rotation', 'Single Leg Eyes Closed'],
+};
+
 // Built-in suggestions when adding exercises to the plan
 export const EXERCISE_LIBRARY = {
   cardio:   ['Running', 'Swimming', 'Cycling', 'Rowing', 'HIIT', 'Jump Rope', 'Elliptical', 'Walking'],

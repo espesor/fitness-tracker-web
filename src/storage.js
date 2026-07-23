@@ -1,11 +1,17 @@
+import { DEFAULT_PLAN } from './constants';
+
 // ─── Plan Exercises (persistent, not date-specific) ───────────────────
 // Stored as { cardio: string[], strength: string[], stretch: string[], balance: string[] }
 
 export function getPlanExercises() {
+  const raw = localStorage.getItem('plan:exercises');
+  if (raw === null) {
+    // First run — seed with defaults so the user isn't starting from a blank plan
+    savePlanExercises(DEFAULT_PLAN);
+    return DEFAULT_PLAN;
+  }
   try {
-    return JSON.parse(localStorage.getItem('plan:exercises')) || {
-      cardio: [], strength: [], stretch: [], balance: [],
-    };
+    return JSON.parse(raw) || { cardio: [], strength: [], stretch: [], balance: [] };
   } catch {
     return { cardio: [], strength: [], stretch: [], balance: [] };
   }
